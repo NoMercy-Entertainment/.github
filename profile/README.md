@@ -3,7 +3,7 @@
 
 <a href="https://nomercy.tv">
   <img
-    src="https://raw.githubusercontent.com/NoMercy-Entertainment/NoMercyMediaServer/master/src/NoMercy.Server/Assets/logo.png" alt="The NoMercy Logo" width="500"
+    src="https://raw.githubusercontent.com/NoMercy-Entertainment/NoMercyMediaServer/blob/dev/assets/icons/logo.png)" alt="The NoMercy Logo" width="500"
   />
 </a>
 
