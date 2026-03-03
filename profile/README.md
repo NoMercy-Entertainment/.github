@@ -55,8 +55,6 @@ The NoMercy MediaServer ecosystem is a suite of interconnected tools designed fo
 ### Core Components
 - [**NoMercyMediaServer**](https://github.com/NoMercy-Entertainment/NoMercyMediaServer)  
   The flagship media server for encoding, managing, and streaming personal media collections with a focus on privacy and ease of use.
-- [**NoMercyApp**](https://github.com/NoMercy-Entertainment/NoMercyApp)  
-  A sleek TV application for consuming media from your NoMercy server.
 - [**NoMercyVideoPlayer**](https://github.com/NoMercy-Entertainment/NoMercyVideoPlayer)  
   An event-driven, headless video player for seamless playback.
 - [**NoMercyMusicPlayer**](https://github.com/NoMercy-Entertainment/NoMercyMusicPlayer)  
@@ -69,8 +67,6 @@ The NoMercy MediaServer ecosystem is a suite of interconnected tools designed fo
   Media Session API implementation for Capacitor and web platforms.
 - [**NoMercyStack**](https://github.com/NoMercy-Entertainment/NoMercyStack)  
   Docker-based infrastructure setup for deploying NoMercy services.
-- [**NoMercy.tv**](https://github.com/NoMercy-Entertainment/NoMercy.tv)  
-  The official website and community hub.
 - [**Examples**](https://github.com/NoMercy-Entertainment/Examples)  
   Library examples and usage guides for developers.
 
