@@ -2,8 +2,9 @@
 <h1>NoMercy Entertainment</h1>
 
 <a href="https://nomercy.tv">
+
   <img
-    src="https://raw.githubusercontent.com/NoMercy-Entertainment/NoMercyMediaServer/blob/dev/assets/icons/logo.png)" alt="The NoMercy Logo" width="500"
+    src="https://github.com/user-attachments/assets/33722e91-76f4-41bf-8beb-3e347c0cbd2c" alt="The NoMercy Logo" width="500"
   />
 </a>
 
