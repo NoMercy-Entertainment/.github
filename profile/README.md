@@ -25,15 +25,15 @@
 
 | Repository | Description |
 |:--|:--|
-| [**NoMercyMediaServer**](https://github.com/NoMercy-Entertainment/NoMercyMediaServer) | The flagship media server — encode, organize, and stream your personal library |
-| [**NoMercyVideoPlayer**](https://github.com/NoMercy-Entertainment/NoMercyVideoPlayer) | Headless, event-driven video player (no UI — bring your own) |
-| [**NoMercyMusicPlayer**](https://github.com/NoMercy-Entertainment/NoMercyMusicPlayer) | Headless music player with spectrum analyzer support |
-| [**NoMercyCastPlayer**](https://github.com/NoMercy-Entertainment/NoMercyCastPlayer) | Chromecast integration for the music player |
-| [**MediaSession**](https://github.com/NoMercy-Entertainment/MediaSession) | Media Session API for Capacitor and web |
-| [**NoMercyStack**](https://github.com/NoMercy-Entertainment/NoMercyStack) | Docker-based infrastructure for deploying NoMercy services |
-| [**NoMercyFFMpeg**](https://github.com/NoMercy-Entertainment/NoMercyFFMpeg) | Custom FFmpeg builds for advanced media processing |
-| [**NoMercyTesseract**](https://github.com/NoMercy-Entertainment/NoMercyTesseract) | OCR via Tesseract for media metadata extraction |
-| [**Examples**](https://github.com/NoMercy-Entertainment/Examples) | Library usage examples and developer guides |
+| [**NoMercy MediaServer**](https://github.com/NoMercy-Entertainment/nomercy-media-server) | The flagship media server — encode, organize, and stream your personal library |
+| [**NoMercy Video Player**](https://github.com/NoMercy-Entertainment/nomercy-video-player) | Headless, event-driven video player (no UI — bring your own) |
+| [**NoMercy Music Player**](https://github.com/NoMercy-Entertainment/nomercy-music-player) | Headless music player with spectrum analyzer support |
+| [**NoMercy Cast Player**](https://github.com/NoMercy-Entertainment/nomercy-cast-player) | Chromecast integration for the music player |
+| [**Media Session**](https://github.com/NoMercy-Entertainment/nomercy-media-session) | Media Session API for Capacitor and web |
+| [**NoMercy Stack**](https://github.com/NoMercy-Entertainment/nomercy-stack) | Docker-based infrastructure for deploying NoMercy services |
+| [**NoMercy FFMpeg**](https://github.com/NoMercy-Entertainment/nomercy-ffmpeg) | Custom FFmpeg builds for advanced media processing |
+| [**NoMercy Tesseract**](https://github.com/NoMercy-Entertainment/nomercy-tesseract) | OCR via Tesseract for media metadata extraction |
+| [**Examples**](https://github.com/NoMercy-Entertainment/nomercy-examples) | Library usage examples and developer guides |
 
 ### Tech Stack
 
