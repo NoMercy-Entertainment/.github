@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "description": "Org-wide Renovate config for NoMercy-Entertainment",
+  "semanticCommits": "enabled",
+  "labels": ["dependencies", "renovate"],
+  "schedule": ["before 9am on Saturday"],
+  "timezone": "Europe/Amsterdam",
+  "packageRules": [
+    {
+      "description": "Group all @nomercy-entertainment packages together",
+      "matchPackagePrefixes": ["@nomercy-entertainment/"],
+      "groupName": "nomercy-entertainment packages",
+      "groupSlug": "nomercy-internal",
+      "automerge": false,
+      "rangeStrategy": "bump"
+    },
+    {
+      "description": "Auto-merge patch updates for internal packages",
+      "matchPackagePrefixes": ["@nomercy-entertainment/"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "description": "Pin GitHub Actions versions for reproducibility",
+      "matchManagers": ["github-actions"],
+      "rangeStrategy": "pin",
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 9am on the first day of the month"],
+    "automerge": true
+  }
+}
