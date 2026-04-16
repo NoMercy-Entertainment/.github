@@ -1,0 +1,15 @@
+name: Daily Maintenance
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  cleanup-runners:
+    uses: ./.github/workflows/reusable-cleanup-runners.yml
+    secrets: inherit
+
+  cleanup-runs:
+    uses: ./.github/workflows/reusable-cleanup-runs.yml
+    secrets: inherit

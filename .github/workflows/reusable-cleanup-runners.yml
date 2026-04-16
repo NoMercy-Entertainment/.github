@@ -1,0 +1,25 @@
+name: Reusable — Cleanup offline runners
+
+on:
+  workflow_call:
+
+jobs:
+  remove-offline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove offline runners
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+          ORG: NoMercy-Entertainment
+        run: |
+          set -euo pipefail
+          echo "=== Removing offline runners ==="
+          deleted=0
+          ids=$(gh api --paginate "orgs/${ORG}/actions/runners" \
+            --jq '.runners[] | select(.status == "offline") | .id')
+          for id in $ids; do
+            gh api -X DELETE "orgs/${ORG}/actions/runners/${id}" 2>/dev/null && {
+              deleted=$((deleted + 1))
+            } || true
+          done
+          echo "=== Removed ${deleted} offline runner(s) ==="
