@@ -6,7 +6,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  cleanup:
+  cleanup-runners:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove offline runners
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+          ORG: NoMercy-Entertainment
+        run: |
+          set -euo pipefail
+          echo "=== Removing offline runners ==="
+          deleted=0
+          gh api --paginate "orgs/${ORG}/actions/runners" \
+            --jq '.runners[] | select(.status == "offline") | .id' | while read id; do
+            gh api -X DELETE "orgs/${ORG}/actions/runners/${id}" 2>/dev/null && {
+              deleted=$((deleted + 1))
+              echo "  removed runner ${id}"
+            } || true
+          done
+          echo "=== Done: removed offline runners ==="
+
+  cleanup-runs:
     runs-on: ubuntu-latest
     steps:
       - name: Cleanup old workflow runs across org
