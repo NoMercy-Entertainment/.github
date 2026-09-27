@@ -4,8 +4,9 @@ Reads the Fields table from the doc (the only source of truth), compares each
 single-select field on the project with it, and rewrites the options of any
 field that differs. Values already set on items are carried over to the
 renamed option, so no item loses its Status or Phase. Also adds the listed
-issues to the board. Views and project workflows have no public API and are
-not touched.
+issues to the board and creates every view in the doc's Views table that the
+board does not have yet (views are never edited or deleted). Project
+workflows have no public API and are not touched.
 
 Usage: GH_TOKEN=... python setup_project.py ORG PROJECT_NUMBER [--dry-run]
        [--add owner/repo#number ...]
@@ -20,6 +21,9 @@ import urllib.request
 from pathlib import Path
 
 API = "https://api.github.com/graphql"
+REST = "https://api.github.com"
+# The Projects REST API (fields and views) needs this version header.
+REST_VERSION = "2026-03-10"
 DOC = Path(__file__).resolve().parents[2] / "docs" / "project-board.md"
 
 # GitHub's default Status option "Todo" means not started, which the doc calls
@@ -44,6 +48,53 @@ def read_doc_fields(path=DOC):
             options = [o.split()[0] for o in options]
         fields[name] = options
     return fields
+
+
+def read_doc_views(path=DOC):
+    """Return the doc's Views table as [{name, layout, filter, arrange}]."""
+    text = path.read_text(encoding="utf-8")
+    section = text.split("## Views", 1)[1].split("\n## ", 1)[0]
+    views = []
+    for line in section.splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) != 4 or cells[0] in ("View", "") or cells[0].startswith(":"):
+            continue
+        name, layout, filter_, arrange = cells
+        views.append(
+            {
+                "name": name,
+                "layout": layout.lower(),
+                "filter": filter_.strip("`"),
+                "arrange": arrange,
+            }
+        )
+    return views
+
+
+def parse_arrangement(text):
+    """'Columns by Status' -> ('columns', 'Status'); also 'Group by' and 'Sort by'."""
+    match = re.fullmatch(r"(Columns|Group|Sort) by (.+)", text.strip())
+    if not match:
+        raise ValueError(f"unknown arrangement in the doc: {text!r}")
+    return match.group(1).lower(), match.group(2).strip()
+
+
+def view_payload(view, field_ids):
+    """The REST body that creates the view, plus notes on anything the doc
+    asks for that the board cannot do. field_ids maps a lower-case field name
+    to its integer id."""
+    body = {"name": view["name"], "layout": view["layout"], "filter": view["filter"]}
+    kind, field = parse_arrangement(view["arrange"])
+    field_id = field_ids.get(field.lower())
+    if field_id is None:
+        return body, [f"{view['name']}: no field named {field!r} on the board, {kind} not applied"]
+    if kind == "columns":
+        body["vertical_group_by"] = [field_id]
+    elif kind == "group":
+        body["group_by"] = [field_id]
+    else:
+        body["sort_by"] = [[field_id, "asc"]]
+    return body, []
 
 
 def map_option(old_name, new_names):
@@ -93,6 +144,18 @@ def gql(token, query, **variables):
     return payload["data"]
 
 
+def rest(token, method, path, body=None):
+    data = json.dumps(body).encode() if body is not None else None
+    req = urllib.request.Request(REST + path, data=data, method=method)
+    req.add_header("Authorization", f"Bearer {token}")
+    req.add_header("Accept", "application/vnd.github+json")
+    req.add_header("X-GitHub-Api-Version", REST_VERSION)
+    if data is not None:
+        req.add_header("Content-Type", "application/json")
+    with urllib.request.urlopen(req) as resp:
+        return json.loads(resp.read())
+
+
 PROJECT = """query($org:String!,$num:Int!){organization(login:$org){projectV2(number:$num){
 id title fields(first:50){nodes{... on ProjectV2SingleSelectField{id name
 options{id name color description}}}}}}}"""
@@ -113,6 +176,11 @@ input:{projectId:$p,itemId:$i,fieldId:$f,value:{singleSelectOptionId:$o}}){proje
 
 ISSUE_ID = """query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){issue(number:$n){id}}}"""
 
+VIEWS = """query($org:String!,$num:Int!){organization(login:$org){projectV2(number:$num){
+views(first:50){nodes{number name layout filter
+groupByFields(first:5){nodes{... on ProjectV2FieldCommon{name}}}
+sortByFields(first:5){nodes{direction field{... on ProjectV2FieldCommon{name}}}}}}}}}"""
+
 ADD_ITEM = """mutation($p:ID!,$c:ID!){addProjectV2ItemById(input:{projectId:$p,contentId:$c}){item{id}}}"""
 
 
@@ -124,6 +192,16 @@ def load_items(token, project_id):
         if not page["pageInfo"]["hasNextPage"]:
             return items
         cursor = page["pageInfo"]["endCursor"]
+
+
+def load_views(token, org, number):
+    return gql(token, VIEWS, org=org, num=number)["organization"]["projectV2"]["views"]["nodes"]
+
+
+def describe_view(view):
+    groups = [f["name"] for f in view["groupByFields"]["nodes"] if f]
+    sorts = [f"{s['field']['name']} {s['direction']}" for s in view["sortByFields"]["nodes"] if s]
+    return f"{view['name']}: {view['layout']} filter={view['filter']!r} group={groups} sort={sorts}"
 
 
 def item_label(item):
@@ -187,6 +265,21 @@ def main(argv=None):
         issue = gql(token, ISSUE_ID, o=owner, r=name, n=int(number))["repository"]["issue"]
         gql(token, ADD_ITEM, p=project_id, c=issue["id"])
 
+    existing = {v["name"] for v in load_views(token, args.org, args.number)}
+    rest_fields = rest(token, "GET", f"/orgs/{args.org}/projectsV2/{args.number}/fields")
+    field_ids = {f["name"].lower(): f["id"] for f in rest_fields}
+    for view in read_doc_views():
+        if view["name"] in existing:
+            print(f"View {view['name']}: exists")
+            continue
+        body, notes = view_payload(view, field_ids)
+        for note in notes:
+            print(f"  NOT POSSIBLE {note}")
+        print(f"View {view['name']}: create {json.dumps(body)}{tag}")
+        if args.dry_run:
+            continue
+        rest(token, "POST", f"/orgs/{args.org}/projectsV2/{args.number}/views", body)
+
     if not args.dry_run:
         after = gql(token, PROJECT, org=args.org, num=args.number)["organization"]["projectV2"]
         print("Read back:")
@@ -196,6 +289,8 @@ def main(argv=None):
                 ok = "OK" if names == wanted[f["name"]] else "DIFFERS"
                 print(f"  {f['name']}: {names} {ok}")
         print(f"  Items on board: {len(load_items(token, project_id))}")
+        for view in load_views(token, args.org, args.number):
+            print(f"  View {describe_view(view)}")
     return 0
 
 

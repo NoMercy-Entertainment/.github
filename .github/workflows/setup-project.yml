@@ -1,7 +1,8 @@
 name: Set up project board
 
 # Brings org project #3 in line with docs/project-board.md: field options, and
-# the issues listed below. Views and project workflows have no public API.
+# the issues listed below, and the views in its Views table. Project
+# workflows have no public API.
 # Pull requests run a dry run; a manual run applies it.
 
 on:
