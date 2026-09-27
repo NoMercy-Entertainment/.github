@@ -1,0 +1,41 @@
+name: Seed board
+
+# Creates the epics and sub-issues listed in a seed file under .github/seed/
+# and puts them on org project #3. Issues already open with the same title are
+# reused, so a rerun is safe. Run with dry_run first.
+
+on:
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: Seed file under .github/seed/
+        type: string
+        default: 2026-09-27-inventory.json
+      dry_run:
+        description: Only print what would be created
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        working-directory: .github/scripts
+        run: python -m unittest test_seed_board test_setup_project -v
+      - name: Seed
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+          SEED: ${{ inputs.seed }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args=(".github/seed/$SEED")
+          [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
+          python .github/scripts/seed_board.py "${args[@]}"

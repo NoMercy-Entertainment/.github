@@ -1,0 +1,1479 @@
+{
+  "org": "NoMercy-Entertainment",
+  "project": 3,
+  "note": "One-time seed of the work found on 2026-09-27 in the planning brief, the Road to v1 plan, the readiness report and the day's threads. Epics live in .github; sub-issues in the repo that changes. Rerunning is safe: an issue whose title already exists open in its repo is reused.",
+  "epics": [
+    {
+      "number": 2,
+      "title": "[Epic] Org foundations: board, issue types, branch protection",
+      "issues": [
+        {
+          "repo": ".github",
+          "title": "Add CODEOWNERS to every repo, with Fillz owning his repos",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P0 Foundations"
+        },
+        {
+          "repo": ".github",
+          "title": "Create milestones v1.0-beta, v1.0 and v1.1 in the repos that release",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P0 Foundations"
+        },
+        {
+          "repo": ".github",
+          "title": "Rewrite the org profile README",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P0 Foundations",
+          "labels": [
+            "documentation"
+          ]
+        },
+        {
+          "repo": ".github",
+          "title": "Turn on secret scanning and dependency alerts on every repo",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P0 Foundations",
+          "labels": [
+            "security"
+          ]
+        },
+        {
+          "repo": ".github",
+          "title": "Pick one dependency updater for the org",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P0 Foundations",
+          "labels": [
+            "decision"
+          ],
+          "body": "Renovate or Dependabot, one for every repo. Decision for Stoney."
+        },
+        {
+          "repo": "nomercy-workspace",
+          "title": "Archive nomercy-app-android on GitHub",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P0 Foundations"
+        },
+        {
+          "repo": "nomercy-workspace",
+          "title": "Add nomercy-plugins, nomercy-showcases and nomercy-stemsplit-models to the repo graph",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P0 Foundations"
+        },
+        {
+          "repo": "nomercy-workspace",
+          "title": "Fix the workspace description that still says 27 repositories",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P0 Foundations"
+        },
+        {
+          "repo": "nomercy-workspace",
+          "title": "Track BOARD.md and MASTER-PLAN.md items on the GitHub board",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P0 Foundations"
+        },
+        {
+          "repo": "nomercy-workspace",
+          "title": "Catalogue the 129 workspace scripts with one verified purpose line each",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P1 Stable + first run"
+        }
+      ],
+      "phase": "P0 Foundations"
+    },
+    {
+      "number": 6,
+      "title": "[Epic] Stable release channel",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Move the server to 1.0.0 with semantic versions",
+          "type": "Task",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Test the upgrade from each of the last three stables with a real library",
+          "type": "Task",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Write user-readable release notes with a rollback note per stable",
+          "type": "Task",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Document the retract workflow as the rollback path",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Move release builds to CI only, so no release depends on one machine",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Delete or rename the two prereleases with branch names in their tags",
+          "type": "Task",
+          "area": "server",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Update the README line that says to expect breaking changes before 1.0",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Keep current v0.1.x users on nightly until they choose a channel",
+          "type": "Task",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Tag every deploy of nomercy-tv",
+          "type": "Task",
+          "area": "saas",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Mark the newest release as latest",
+          "type": "Task",
+          "area": "kmp",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-music-player-kmp",
+          "title": "Publish GitHub releases that match the published versions",
+          "type": "Task",
+          "area": "players-kmp",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-specs",
+          "title": "Publish a component version matrix per public release",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-specs",
+          "title": "Fill a compatibility matrix (server, web, Android, cast, players, nomercy.tv API) per stable",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P1 Stable + first run"
+        }
+      ],
+      "phase": "P1 Stable + first run"
+    },
+    {
+      "number": 7,
+      "title": "[Epic] First movie without help",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Set up the five reference machines: Windows 11, Ubuntu deb, Docker, macOS Apple silicon, one NAS",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-app-web",
+          "title": "Instrument the onboarding golden path",
+          "type": "Task",
+          "area": "web",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Test remote access from mobile data on every install type, direct and tunnel",
+          "type": "Task",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Watch five newcomers reach their first movie on five clean machines",
+          "type": "Task",
+          "area": "server",
+          "phase": "P2 Private beta",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Measure home screen, first frame and seek time each beta on a low-end Android TV box",
+          "type": "Task",
+          "area": "kmp",
+          "phase": "P2 Private beta"
+        }
+      ],
+      "phase": "P1 Stable + first run"
+    },
+    {
+      "number": 8,
+      "title": "[Epic] Works when nomercy.tv is down",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Prove the offline signing-key cache with a drill",
+          "type": "Task",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "release": "v1.0-beta"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Replace the 5-minute user-roster poll of nomercy.tv with push or a webhook",
+          "type": "Task",
+          "area": "server",
+          "phase": "P2 Private beta"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Publish a data map of every call to nomercy.tv and third parties, with an off switch each",
+          "type": "Task",
+          "area": "server",
+          "phase": "P2 Private beta",
+          "labels": [
+            "documentation"
+          ]
+        }
+      ],
+      "phase": "P1 Stable + first run"
+    },
+    {
+      "number": 12,
+      "title": "[Epic] Chromecast receiver",
+      "issues": [
+        {
+          "repo": "nomercy-cast-player",
+          "title": "Conform per-device volume on the cast receiver",
+          "type": "Task",
+          "area": "cast",
+          "phase": "P2 Private beta"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Casting from the phone crashes the TV app",
+          "type": "Bug",
+          "area": "kmp",
+          "phase": "P2 Private beta",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Test the cast shell remote_params customData path",
+          "type": "Task",
+          "area": "kmp",
+          "phase": "P2 Private beta"
+        }
+      ],
+      "phase": "P3 Hardening"
+    },
+    {
+      "title": "[Epic] Server hardening: queues, hubs and devices",
+      "phase": "P1 Stable + first run",
+      "release": "v1.0-beta",
+      "labels": [
+        "v1-gate"
+      ],
+      "body": "The stability slices from the execution plan (A08, A10, A11, D03, D04) plus the library-membership design defect. Stability comes before any new feature.",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Enforce concurrency and backoff on the provider queue",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice A08."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Add a wall-clock timeout to ProcessRunner",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice A08."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Surface OCR failures instead of swallowing them",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice A08."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Make every SignalR hub command validate its input and return a result",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice A10."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Clean up hub static state on disconnect",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice A10."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Fix device ping and eviction on the device bus",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice A11."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Stop a device fingerprint from taking over another device",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug",
+            "security"
+          ],
+          "body": "Execution plan slice A11."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Make the push relay reliable",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice A11."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Define \"device\" once for GetDevices, the connection hub and the device bus",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice D03."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Let a TV signed into one server be seen from another server on the same account",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Execution plan slice D04."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Fix the library-membership double store (Tvs.LibraryId and LibraryTv disagree)",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Phantom LibraryTv rows were deleted by hand on one server on 2026-09-27; the code still writes both stores."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "TmdbChangesCronJob dispatches a job per phantom LibraryTv row",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Find siblings of the palette-generation runaway: flags with zero readers",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Finish the repository consolidation",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Finish SignalR hardening",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Audit the queue and the database",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Verify storage-driver correctness",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Harden live-transcode resilience",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Remove the stale storage.nomercy.tv reference",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-app-web",
+          "title": "Remove the stale storage.nomercy.tv reference",
+          "type": "Task",
+          "area": "web"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Add a file integrity check for library files",
+          "type": "Feature",
+          "area": "server",
+          "phase": "P3 Hardening"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Installers, packages and the updater",
+      "phase": "P1 Stable + first run",
+      "release": "v1.0-beta",
+      "labels": [
+        "v1-gate"
+      ],
+      "body": "Execution plan slice A13 plus the updater bugs found while documenting `nomercy update` on 2026-09-27.",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Add package metadata to the rpm installer",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Ship a database with the Arch package",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Make the deb postinst do its job",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Add --service support to the Windows installer",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "nomercy update on an up-to-date server exits with \"No staged update file found\"",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "Read in src/NoMercy.Cli/Commands/UpdateCommand.cs, not yet reproduced."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "The update timeout message tells the user to stop a server that is already stopped",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "UpdateCommand, 60 second stop timeout. Read, not reproduced."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "A failed file swap during nomercy update leaves the server stopped",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "UpdateCommand. Read, not reproduced."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "nomercy update on a package install writes to the per-user folder instead of /opt/nomercy",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ],
+          "body": "UpdateCommand target path. Read, not reproduced."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "The package site template names nomercymediaserver and nomercyapp; the packages are called nomercy",
+          "type": "Bug",
+          "area": "docs",
+          "labels": [
+            "bug",
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Test the upgrade path from every stable release",
+          "type": "Task",
+          "area": "server"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Security and privacy",
+      "phase": "P3 Hardening",
+      "release": "v1.0",
+      "body": "Execution plan slice A16 and the security and privacy section of the Road to v1 plan.",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Restrict the trusted-proxy list to named proxies",
+          "type": "Bug",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "bug",
+            "security"
+          ],
+          "body": "Execution plan slice A16."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Narrow the CORS wildcard",
+          "type": "Bug",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "bug",
+            "security"
+          ],
+          "body": "Execution plan slice A16."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Close auth and permission gaps on admin-only routes",
+          "type": "Bug",
+          "area": "server",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "bug",
+            "security"
+          ],
+          "body": "Execution plan slice A16."
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Add a CI test that every endpoint needs auth unless it is on a short allow-list",
+          "type": "Task",
+          "area": "server",
+          "labels": [
+            "security"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Shorten the Keycloak access token lifetime for nomercy-ui",
+          "type": "Bug",
+          "area": "saas",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "bug",
+            "security"
+          ]
+        },
+        {
+          "repo": "nomercy-specs",
+          "title": "Write the threat model: client to server, server to nomercy.tv, plugin to server",
+          "type": "Task",
+          "area": "docs",
+          "labels": [
+            "security"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Commission an outside penetration test of nomercy.tv and the server's public endpoints",
+          "type": "Task",
+          "area": "saas",
+          "labels": [
+            "security"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Publish an SBOM per release",
+          "type": "Task",
+          "area": "server",
+          "labels": [
+            "security"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Add a privacy policy, data export and account deletion",
+          "type": "Task",
+          "area": "saas"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Opt-in crash reports, off by default, asked once at setup",
+          "type": "Feature",
+          "area": "kmp",
+          "phase": "P2 Private beta"
+        },
+        {
+          "repo": "nomercy-app-web",
+          "title": "Opt-in crash reports, off by default, asked once at setup",
+          "type": "Feature",
+          "area": "web",
+          "phase": "P2 Private beta"
+        },
+        {
+          "repo": "nomercy-specs",
+          "title": "State the guarantee: no analytics without opt-in and no ad SDKs in any client",
+          "type": "Task",
+          "area": "docs"
+        },
+        {
+          "repo": "nomercy-docs",
+          "title": "Document exactly what NoMercy Connect passes through nomercy.tv",
+          "type": "Task",
+          "area": "docs",
+          "labels": [
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Publish an annual transparency note",
+          "type": "Task",
+          "area": "saas",
+          "phase": "P4 1.0"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Start a security hall of fame, then a bug bounty once 1.0 is stable",
+          "type": "Task",
+          "area": "saas",
+          "phase": "P5 After 1.0"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Client and server contracts checked in CI",
+      "phase": "P1 Stable + first run",
+      "release": "v1.0-beta",
+      "body": "Execution plan slices B01 and B02: the server publishes its contract and every client is diffed against it in CI.",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Commit openapi.json and signalr-contracts.json to the repo",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-app-web",
+          "title": "Diff the web client against the server contract in CI",
+          "type": "Task",
+          "area": "web"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Diff the KMP client against the server contract in CI",
+          "type": "Task",
+          "area": "kmp"
+        },
+        {
+          "repo": "nomercy-cast-player",
+          "title": "Diff the cast receiver against the server contract in CI",
+          "type": "Task",
+          "area": "cast"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Generate the plugin kind vocabulary from one source for C#, TypeScript and Kotlin",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Decide the cross-repo contract for the 100-track broadcast queue window",
+          "type": "Task",
+          "area": "server",
+          "labels": [
+            "decision"
+          ]
+        },
+        {
+          "repo": "nomercy-specs",
+          "title": "Build the cross-project field-contract map",
+          "type": "Task",
+          "area": "docs"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] NoMercy Connect and the music hub",
+      "phase": "P2 Private beta",
+      "release": "v1.0",
+      "body": "Phone-to-TV control and multi-device music playback bugs from the planning brief.",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Conform per-device volume on the video path",
+          "type": "Feature",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Cross-device volume control sometimes does nothing",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Volume double-apply echo loop between devices",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Active and server queue state drift after a device handoff",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Every remote command re-broadcasts the whole playlist with lyrics",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Redesign the music hub receive loop sync clock on the TV",
+          "type": "Bug",
+          "area": "kmp",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "A dark panel appears on the TV on wake from sleep",
+          "type": "Bug",
+          "area": "kmp",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Phone-to-TV authentication handoff",
+          "type": "Feature",
+          "area": "kmp"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Run the NoMercy Connect conformance audit",
+          "type": "Task",
+          "area": "server"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Android app and the KMP player trio",
+      "phase": "P2 Private beta",
+      "release": "v1.0",
+      "body": "Finish the KMP app refactor on the external player libraries and take the KMP trio to 1.0 before the Android app ships as 1.0.",
+      "issues": [
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Finish KMP refactor slice 07: external player libraries",
+          "type": "Task",
+          "area": "kmp",
+          "phase": "P1 Stable + first run"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Complete the remaining KMP refactor slices",
+          "type": "Task",
+          "area": "kmp"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Check every store that caches a server URL for the server-switch bug class",
+          "type": "Task",
+          "area": "kmp"
+        },
+        {
+          "repo": "nomercy-video-player-kmp",
+          "title": "Build an LGPL ffmpeg for the native player",
+          "type": "Task",
+          "area": "players-kmp"
+        },
+        {
+          "repo": "nomercy-video-player-kmp",
+          "title": "Network-recovery reload does not reach the backend",
+          "type": "Bug",
+          "area": "players-kmp",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-video-player-kmp",
+          "title": "The phone transport bar drops every menu button",
+          "type": "Bug",
+          "area": "players-kmp",
+          "labels": [
+            "bug"
+          ],
+          "body": "Reported, not yet confirmed."
+        },
+        {
+          "repo": "nomercy-video-player-kmp",
+          "title": "Confirm SegmentSkipPlugin fires Skipped on the second queued item",
+          "type": "Bug",
+          "area": "players-kmp",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-player-core-kmp",
+          "title": "Verify Android Auto metadata blank-debounce and cover art over AVRCP",
+          "type": "Task",
+          "area": "players-kmp"
+        },
+        {
+          "repo": "nomercy-player-core-kmp",
+          "title": "Take the KMP player trio to 1.0",
+          "type": "Task",
+          "area": "players-kmp"
+        },
+        {
+          "repo": "nomercy-player-core-kmp",
+          "title": "Follow up the outside contributor PR that failed CI on 20 September",
+          "type": "Task",
+          "area": "players-kmp"
+        },
+        {
+          "repo": "nomercy-video-player",
+          "title": "player.on(PluginClass, event, fn) does not work for external consumers",
+          "type": "Bug",
+          "area": "players-web",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-app-web",
+          "title": "Update the published players to 2.2.3",
+          "type": "Task",
+          "area": "web",
+          "phase": "P1 Stable + first run"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Encoding and playback quality",
+      "phase": "P3 Hardening",
+      "release": "v1.0",
+      "body": "Deep-dive backlog from the planning brief.",
+      "issues": [
+        {
+          "repo": "nomercy-media-server",
+          "title": "Populate VideoStreamInfo.Rotation and encode portrait video on a portrait ladder",
+          "type": "Bug",
+          "area": "server",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Rework the ABR ladder",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Finish the encoder scenario campaign",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Build the HLS Apple-compliance muxer patches",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Run the optical-disc render matrix",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Wire the TVDB provider as a fallback identity provider",
+          "type": "Feature",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Ship or drop the legacy octopus subtitle worker path",
+          "type": "Task",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Decide the Tesseract OCR training route",
+          "type": "Task",
+          "area": "server",
+          "labels": [
+            "decision"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "[Epic] nomercy.tv hardening",
+      "phase": "P1 Stable + first run",
+      "release": "v1.0-beta",
+      "body": "The SaaS control plane items from the planning brief and the Road to v1 plan.",
+      "issues": [
+        {
+          "repo": "nomercy-tv",
+          "title": "Finish the billing.enabled flip that causes the access_token empty string 500s",
+          "type": "Bug",
+          "area": "saas",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Add onOneServer to the 19 scheduled jobs",
+          "type": "Bug",
+          "area": "saas",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Implement the empty TunnelController stub",
+          "type": "Bug",
+          "area": "saas",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Cut the homepage weight",
+          "type": "Bug",
+          "area": "saas",
+          "labels": [
+            "bug"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Remove the dead storage.nomercy.tv DNS record and its stale references",
+          "type": "Task",
+          "area": "saas"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Finish the trailer backfill",
+          "type": "Task",
+          "area": "saas"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Drop the empty nomercy-local Postgres database",
+          "type": "Task",
+          "area": "saas"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Decide the Nova chatbot tables before the next migration",
+          "type": "Task",
+          "area": "saas",
+          "labels": [
+            "decision"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Decide the Discord OAuth redirect: drop the route or fix and re-register",
+          "type": "Task",
+          "area": "saas",
+          "labels": [
+            "decision"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Sign off plugin trust release 2: enforce",
+          "type": "Task",
+          "area": "saas",
+          "labels": [
+            "decision"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Add end-to-end tests for certificate renewal and server registration",
+          "type": "Task",
+          "area": "saas",
+          "phase": "P2 Private beta"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Finish immersive Keycloak login phase 1",
+          "type": "Feature",
+          "area": "saas",
+          "phase": "P2 Private beta"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Finish TV infra hardening",
+          "type": "Task",
+          "area": "saas"
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Decide the path past 900 tunnels: more accounts, enterprise limit or own relay",
+          "type": "Task",
+          "area": "saas",
+          "phase": "P3 Hardening",
+          "labels": [
+            "decision"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Unblock the paid plugin marketplace: platform fee and EU VAT advice",
+          "type": "Task",
+          "area": "saas",
+          "phase": "P5 After 1.0",
+          "labels": [
+            "decision"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Web app",
+      "phase": "P2 Private beta",
+      "release": "v1.0",
+      "issues": [
+        {
+          "repo": "nomercy-app-web",
+          "title": "Deliver the server-driven frame",
+          "type": "Feature",
+          "area": "web"
+        },
+        {
+          "repo": "nomercy-app-web",
+          "title": "Deduplicate the desktop and mobile views",
+          "type": "Task",
+          "area": "web"
+        },
+        {
+          "repo": "nomercy-app-web",
+          "title": "Run the i18n and accessibility day-one audit",
+          "type": "Task",
+          "area": "web",
+          "phase": "P3 Hardening"
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Run the i18n and accessibility day-one audit",
+          "type": "Task",
+          "area": "kmp",
+          "phase": "P3 Hardening"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Documentation and specs",
+      "phase": "P3 Hardening",
+      "release": "v1.0",
+      "issues": [
+        {
+          "repo": "nomercy-app-web",
+          "title": "Write a README",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Write a README",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "README says MySQL; the project runs PostgreSQL",
+          "type": "Bug",
+          "area": "docs",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "bug",
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "README links to audit/ECOSYSTEM-MAP.md, which is not in the repo",
+          "type": "Bug",
+          "area": "docs",
+          "phase": "P1 Stable + first run",
+          "labels": [
+            "bug",
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-docs",
+          "title": "Decide what to do with the 177 empty stub pages",
+          "type": "Task",
+          "area": "docs",
+          "labels": [
+            "decision",
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-docs",
+          "title": "Write install per platform, remote access, backup and migrating from another media server",
+          "type": "Task",
+          "area": "docs",
+          "labels": [
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-docs",
+          "title": "Verify whether the server takes a database snapshot before a migration, as the Upgrading page used to claim",
+          "type": "Task",
+          "area": "docs",
+          "labels": [
+            "documentation"
+          ]
+        },
+        {
+          "repo": "nomercy-specs",
+          "title": "Widen spec coverage: the media server has 2 pages and the cast player 1",
+          "type": "Task",
+          "area": "docs"
+        },
+        {
+          "repo": "nomercy-specs",
+          "title": "Keep a feature matrix per client",
+          "type": "Task",
+          "area": "docs"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Infra and fleet",
+      "phase": "P1 Stable + first run",
+      "release": "v1.0-beta",
+      "body": "Machines and services the product depends on. No hostnames or addresses in public text.",
+      "issues": [
+        {
+          "repo": ".github",
+          "title": "Configure snapshots on the NAS pool",
+          "type": "Task",
+          "area": "infra",
+          "labels": [
+            "v1-gate"
+          ],
+          "body": "The pool is near full and has no snapshots. Backup before anything else."
+        },
+        {
+          "repo": ".github",
+          "title": "Add a dead man's switch and an uptime watch for the virtualisation host",
+          "type": "Task",
+          "area": "infra"
+        },
+        {
+          "repo": ".github",
+          "title": "Publish targets for sign-in, DNS and certificate renewal on the status page, and alert before a certificate expires",
+          "type": "Task",
+          "area": "infra"
+        },
+        {
+          "repo": ".github",
+          "title": "Move the runner dashboard login out of the Keycloak master admin realm",
+          "type": "Task",
+          "area": "infra",
+          "labels": [
+            "security"
+          ]
+        },
+        {
+          "repo": ".github",
+          "title": "Decide what to do with the old production droplet data",
+          "type": "Task",
+          "area": "infra",
+          "labels": [
+            "decision"
+          ],
+          "body": "Deletable after 2026-10-02."
+        },
+        {
+          "repo": ".github",
+          "title": "Measure tunnel cost per household during the beta",
+          "type": "Task",
+          "area": "infra",
+          "phase": "P2 Private beta"
+        },
+        {
+          "repo": ".github",
+          "title": "Apply the pending macOS update on the build Mac",
+          "type": "Task",
+          "area": "infra"
+        },
+        {
+          "repo": ".github",
+          "title": "Finish the faststart remux of the legacy library MP4 files",
+          "type": "Task",
+          "area": "infra"
+        },
+        {
+          "repo": "nomercy-ci",
+          "title": "Give the runner that lacks PHP a PHP toolchain, or take it out of the nomercy-tv pool",
+          "type": "Task",
+          "area": "infra",
+          "body": "For Fillz."
+        },
+        {
+          "repo": "nomercy-github-runner",
+          "title": "Restart the beast-unit runner image after the umask fix",
+          "type": "Task",
+          "area": "infra",
+          "body": "For Fillz."
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Private beta",
+      "phase": "P2 Private beta",
+      "release": "v1.0-beta",
+      "issues": [
+        {
+          "repo": ".github",
+          "title": "Run a private beta of 20 to 50 households on the beta channel",
+          "type": "Task",
+          "area": "infra"
+        },
+        {
+          "repo": ".github",
+          "title": "Give self-hosting reviewers early beta access",
+          "type": "Task",
+          "area": "docs"
+        },
+        {
+          "repo": ".github",
+          "title": "Open a Discord support channel linked from the app's help screen",
+          "type": "Task",
+          "area": "docs"
+        },
+        {
+          "repo": ".github",
+          "title": "Publish a short public post-mortem for any incident users felt",
+          "type": "Task",
+          "area": "docs"
+        },
+        {
+          "repo": ".github",
+          "title": "Set up a support rota for 1.0",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P4 1.0"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] Website and go-to-market",
+      "phase": "P3 Hardening",
+      "release": "v1.0",
+      "issues": [
+        {
+          "repo": "nomercy-tv",
+          "title": "Put the seven promises, the comparison and the licence on the website",
+          "type": "Task",
+          "area": "saas",
+          "body": "Waits on decisions 1 and 6."
+        },
+        {
+          "repo": "nomercy-tv",
+          "title": "Name and price NoMercy Plus and a supporter tier after the beta",
+          "type": "Task",
+          "area": "saas",
+          "phase": "P4 1.0",
+          "labels": [
+            "decision"
+          ]
+        },
+        {
+          "repo": ".github",
+          "title": "Submit store listings: Docker Hub, Unraid Community Apps, TrueNAS, Synology",
+          "type": "Task",
+          "area": "infra"
+        },
+        {
+          "repo": ".github",
+          "title": "Ask a lawyer about disc ripping and subtitle download before the website names them",
+          "type": "Task",
+          "area": "docs"
+        },
+        {
+          "repo": ".github",
+          "title": "Announce pricing for optional services at 1.0",
+          "type": "Task",
+          "area": "docs",
+          "phase": "P4 1.0"
+        }
+      ]
+    },
+    {
+      "title": "[Epic] After 1.0",
+      "phase": "P5 After 1.0",
+      "release": "later",
+      "body": "Suspended until 1.0 ships (decision 3).",
+      "issues": [
+        {
+          "repo": "nomercy-app-kmp",
+          "title": "Ship iPhone and Apple TV native apps",
+          "type": "Feature",
+          "area": "kmp"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Watch together",
+          "type": "Feature",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Live TV and DVR",
+          "type": "Feature",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Desktop app and NAS store listings",
+          "type": "Feature",
+          "area": "server"
+        },
+        {
+          "repo": "nomercy-media-server",
+          "title": "Disc menus in the browser (NMDF)",
+          "type": "Feature",
+          "area": "server"
+        }
+      ]
+    }
+  ]
+}
