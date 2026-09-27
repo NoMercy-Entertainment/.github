@@ -3,8 +3,9 @@
 Reads the Fields table from the doc (the only source of truth), compares each
 single-select field on the project with it, and rewrites the options of any
 field that differs. Values already set on items are carried over to the
-renamed option, so no item loses its Status or Phase. Also adds the listed
-issues to the board and creates every view in the doc's Views table that the
+renamed option, so no item loses its Status or Phase. Also puts every open
+issue of every unarchived repo in the org on the board (plus any listed with
+--add), and creates every view in the doc's Views table that the
 board does not have yet (views are never edited or deleted). Project
 workflows have no public API and are not touched.
 
@@ -144,7 +145,7 @@ def gql(token, query, **variables):
     return payload["data"]
 
 
-def rest(token, method, path, body=None):
+def rest(token, method, path, body=None, headers=None):
     data = json.dumps(body).encode() if body is not None else None
     req = urllib.request.Request(REST + path, data=data, method=method)
     req.add_header("Authorization", f"Bearer {token}")
@@ -153,7 +154,36 @@ def rest(token, method, path, body=None):
     if data is not None:
         req.add_header("Content-Type", "application/json")
     with urllib.request.urlopen(req) as resp:
+        if headers is not None:
+            headers.update(resp.headers)
         return json.loads(resp.read())
+
+
+def rest_pages(token, path):
+    """Every item of a paginated list endpoint."""
+    items = []
+    page = 1
+    while True:
+        sep = "&" if "?" in path else "?"
+        batch = rest(token, "GET", f"{path}{sep}per_page=100&page={page}")
+        items.extend(batch)
+        if len(batch) < 100:
+            return items
+        page += 1
+
+
+def open_issue_refs(repos, issues_of):
+    """owner/repo#number for every open issue (not pull request) of every
+    unarchived repo. issues_of(full_name) returns the repo's open issues."""
+    refs = []
+    for repo in repos:
+        if repo.get("archived"):
+            continue
+        for issue in issues_of(repo["full_name"]):
+            if "pull_request" in issue:
+                continue
+            refs.append(f"{repo['full_name']}#{issue['number']}")
+    return refs
 
 
 PROJECT = """query($org:String!,$num:Int!){organization(login:$org){projectV2(number:$num){
@@ -253,10 +283,14 @@ def main(argv=None):
             gql(token, SET_VALUE, p=project_id, i=item["id"], f=field["id"], o=new_ids[target])
 
     on_board = {item_label(i) for i in items}
-    for ref in args.add:
+    repos = rest_pages(token, f"/orgs/{args.org}/repos?type=all")
+    wanted_refs = open_issue_refs(
+        repos, lambda name: rest_pages(token, f"/repos/{name}/issues?state=open")
+    )
+    print(f"Open issues in {len(repos)} repos: {len(wanted_refs)}")
+    for ref in list(args.add) + [r for r in wanted_refs if r not in args.add]:
         repo, number = ref.split("#")
         if ref in on_board:
-            print(f"{ref}: already on the board")
             continue
         print(f"{ref}: add{tag}")
         if args.dry_run:

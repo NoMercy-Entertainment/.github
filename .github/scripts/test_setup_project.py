@@ -2,6 +2,7 @@ import unittest
 
 from setup_project import (
     map_option,
+    open_issue_refs,
     parse_arrangement,
     plan_field,
     read_doc_fields,
@@ -60,6 +61,19 @@ class ViewsTest(unittest.TestCase):
         self.assertEqual(body, {"name": "Inbox", "layout": "table", "filter": "status:Inbox"})
         self.assertEqual(len(notes), 1)
         self.assertIn("'created'", notes[0])
+
+
+class OpenIssuesTest(unittest.TestCase):
+    def test_skips_archived_repos_and_pull_requests(self):
+        repos = [
+            {"full_name": "o/live", "archived": False},
+            {"full_name": "o/old", "archived": True},
+        ]
+        issues = {
+            "o/live": [{"number": 1}, {"number": 2, "pull_request": {}}, {"number": 3}],
+            "o/old": [{"number": 9}],
+        }
+        self.assertEqual(open_issue_refs(repos, issues.__getitem__), ["o/live#1", "o/live#3"])
 
 
 class MapTest(unittest.TestCase):
