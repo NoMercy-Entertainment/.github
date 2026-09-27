@@ -2,7 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
-from seed_board import issue_body, plan
+from seed_board import issue_body, plan, with_backoff
 
 SEED = Path(__file__).resolve().parents[1] / "seed" / "2026-09-27-inventory.json"
 
@@ -49,6 +49,27 @@ class PlanTest(unittest.TestCase):
                          "Slice A08.\n\nPart of o/.github#6.\n\nSeeded from the 2026-09-27 work inventory.")
 
 
+class BackoffTest(unittest.TestCase):
+    def test_waits_on_a_rate_limit_then_returns(self):
+        calls, waits = [], []
+
+        def call():
+            calls.append(1)
+            if len(calls) < 3:
+                raise RuntimeError('[{"type": "RATE_LIMITED"}]')
+            return "ok"
+
+        self.assertEqual(with_backoff(call, sleep=waits.append), "ok")
+        self.assertEqual(waits, [60, 120])
+
+    def test_other_errors_are_raised_at_once(self):
+        def call():
+            raise RuntimeError('[{"type": "NOT_FOUND"}]')
+
+        with self.assertRaises(RuntimeError):
+            with_backoff(call, sleep=lambda s: None)
+
+
 class SeedFileTest(unittest.TestCase):
     def test_every_value_is_one_the_board_and_labels_have(self):
         seed = json.loads(SEED.read_text(encoding="utf-8"))
@@ -61,6 +82,10 @@ class SeedFileTest(unittest.TestCase):
             self.assertTrue(set(step["labels"]) <= LABELS, step["title"])
             if step["kind"] == "issue":
                 self.assertIn("area", f, step["title"])
+                if f["phase"].startswith("P5"):
+                    self.assertEqual(f.get("release"), "later", step["title"])
+                if f["phase"][:2] in ("P3", "P4"):
+                    self.assertNotEqual(f.get("release"), "v1.0-beta", step["title"])
 
     def test_no_title_twice_in_one_repo(self):
         seed = json.loads(SEED.read_text(encoding="utf-8"))

@@ -486,7 +486,8 @@
           "title": "Add a file integrity check for library files",
           "type": "Feature",
           "area": "server",
-          "phase": "P3 Hardening"
+          "phase": "P3 Hardening",
+          "release": "v1.0"
         }
       ]
     },
@@ -729,7 +730,8 @@
           "title": "Start a security hall of fame, then a bug bounty once 1.0 is stable",
           "type": "Task",
           "area": "saas",
-          "phase": "P5 After 1.0"
+          "phase": "P5 After 1.0",
+          "release": "later"
         }
       ]
     },
@@ -1138,7 +1140,8 @@
           "phase": "P3 Hardening",
           "labels": [
             "decision"
-          ]
+          ],
+          "release": "v1.0"
         },
         {
           "repo": "nomercy-tv",
@@ -1148,7 +1151,8 @@
           "phase": "P5 After 1.0",
           "labels": [
             "decision"
-          ]
+          ],
+          "release": "later"
         }
       ]
     },
@@ -1390,7 +1394,8 @@
           "title": "Set up a support rota for 1.0",
           "type": "Task",
           "area": "docs",
-          "phase": "P4 1.0"
+          "phase": "P4 1.0",
+          "release": "v1.0"
         }
       ]
     },

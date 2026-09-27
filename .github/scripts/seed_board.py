@@ -15,8 +15,10 @@ import json
 import os
 import sys
 import time
+import urllib.error
 
-from setup_project import gql, rest, rest_pages
+import setup_project
+from setup_project import rest_pages
 
 EPIC_REPO = ".github"
 BOARD_FIELDS = ("area", "phase", "release")
@@ -28,6 +30,50 @@ ADD_ITEM = """mutation($p:ID!,$c:ID!){addProjectV2ItemById(input:{projectId:$p,c
 
 SET_VALUE = """mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){updateProjectV2ItemFieldValue(
 input:{projectId:$p,itemId:$i,fieldId:$f,value:{singleSelectOptionId:$o}}){projectV2Item{id}}}"""
+
+
+PAUSE = 1.0  # seconds after each write, to stay under GitHub's write rate limits
+MAX_WAITS = 30
+
+
+def is_rate_limited(error):
+    """True when GitHub refused a call because of a rate limit."""
+    if isinstance(error, urllib.error.HTTPError):
+        if error.code == 429:
+            return True
+        if error.code == 403:
+            text = error.read().decode(errors="replace").lower()
+            return "rate limit" in text
+        return False
+    return "rate_limited" in str(error).lower() or "rate limit" in str(error).lower()
+
+
+def with_backoff(call, sleep=time.sleep):
+    """Run call(), waiting and retrying while GitHub answers with a rate limit."""
+    for attempt in range(MAX_WAITS):
+        try:
+            return call()
+        except (urllib.error.HTTPError, RuntimeError) as error:
+            if not is_rate_limited(error):
+                raise
+            wait = min(60 * (attempt + 1), 300)
+            print(f"  rate limited, waiting {wait}s")
+            sleep(wait)
+    raise SystemExit("still rate limited after the maximum number of waits")
+
+
+def rest(token, method, path, body=None):
+    result = with_backoff(lambda: setup_project.rest(token, method, path, body))
+    if method != "GET":
+        time.sleep(PAUSE)
+    return result
+
+
+def gql(token, query, **variables):
+    result = with_backoff(lambda: setup_project.gql(token, query, **variables))
+    if query.lstrip().startswith("mutation"):
+        time.sleep(PAUSE)
+    return result
 
 
 def plan(seed, open_titles):
@@ -139,7 +185,6 @@ def main(argv=None):
                 },
             )
             numbers[index] = issue["number"]
-            time.sleep(1)
         if args.dry_run:
             continue
         number = numbers[index]
@@ -153,8 +198,8 @@ def main(argv=None):
                     f"/repos/{org}/{EPIC_REPO}/issues/{parent}/sub_issues",
                     {"sub_issue_id": issue["id"]},
                 )
-            except Exception as error:  # already linked answers 422
-                if "422" not in str(error):
+            except urllib.error.HTTPError as error:  # already linked answers 422
+                if error.code != 422:
                     raise
         item = gql(token, ADD_ITEM, p=project["id"], c=issue["node_id"])["addProjectV2ItemById"]["item"]
         for name, value in step["fields"].items():
