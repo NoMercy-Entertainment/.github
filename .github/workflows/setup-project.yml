@@ -1,0 +1,44 @@
+name: Set up project board
+
+# Brings org project #3 in line with docs/project-board.md: field options, and
+# the issues listed below. Views and project workflows have no public API.
+# Pull requests run a dry run; a manual run applies it.
+
+on:
+  pull_request:
+    paths:
+      - docs/project-board.md
+      - .github/scripts/setup_project.py
+      - .github/workflows/setup-project.yml
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only print what would change
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        working-directory: .github/scripts
+        run: python -m unittest test_setup_project -v
+      - name: Set up board
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+          DRY_RUN: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}
+        run: |
+          args=(NoMercy-Entertainment 3)
+          [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
+          python .github/scripts/setup_project.py "${args[@]}" --add \
+            NoMercy-Entertainment/.github#12 \
+            NoMercy-Entertainment/nomercy-cast-player#5 \
+            NoMercy-Entertainment/nomercy-media-server#80
