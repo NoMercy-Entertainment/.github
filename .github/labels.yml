@@ -1,0 +1,62 @@
+# Shared labels for every NoMercy-Entertainment repository.
+#
+# sync-labels.yml applies this file to each repo in the org. It creates missing
+# labels and updates the colour and description of existing ones. It never
+# deletes a label and never renames one, so labels a repo already uses stay put.
+#
+# Kind (bug, feature, task, epic) is an org issue type, not a label.
+# Priority, area, release and size are fields on the org project board.
+# Labels cover what issue forms and triage need to set from inside a repo.
+
+# Triage
+- name: needs-triage
+  color: "fbca04"
+  description: New, not yet given a priority and area on the board
+- name: needs-info
+  color: "d4c5f9"
+  description: Waiting on the reporter for details, logs or steps
+- name: decision
+  color: "b60205"
+  description: Waiting on a decision from Stoney
+- name: blocked
+  color: "000000"
+  description: Cannot move until something outside this issue changes
+
+# Release
+- name: v1-gate
+  color: "5319e7"
+  description: Must be done before NoMercy 1.0 ships
+- name: breaking-change
+  color: "d93f0b"
+  description: Changes an API, schema, config or protocol that existing installs use
+- name: regression
+  color: "e11d21"
+  description: Worked in an earlier release and broke
+
+# Kind extras
+- name: security
+  color: "ee0701"
+  description: Security hardening. Report vulnerabilities privately, see SECURITY.md
+- name: documentation
+  color: "0075ca"
+  description: Docs, READMEs and guides
+
+# GitHub defaults, kept so older issues and Renovate keep their labels
+- name: bug
+  color: "d73a4a"
+  description: Something is not working
+- name: enhancement
+  color: "a2eeef"
+  description: New feature or request
+- name: good first issue
+  color: "7057ff"
+  description: Small and well described, good for a new contributor
+- name: help wanted
+  color: "008672"
+  description: Extra attention is needed
+- name: dependencies
+  color: "0366d6"
+  description: Updates a dependency
+- name: renovate
+  color: "1a7f37"
+  description: Opened by Renovate

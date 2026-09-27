@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/NoMercy-Entertainment/.github/blob/master/SECURITY.md
+    about: Please do not open a public issue. Report it privately as described here.
+  - name: Ask a question or get help
+    url: https://discord.com/invite/u3A3KXd2Hd
+    about: Setup help and questions go to the NoMercy Discord.
+  - name: Read the docs
+    url: https://github.com/NoMercy-Entertainment/nomercy-docs
+    about: Install guides, remote access and troubleshooting.

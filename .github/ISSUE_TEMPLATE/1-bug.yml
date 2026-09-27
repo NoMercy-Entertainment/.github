@@ -1,0 +1,100 @@
+name: Bug report
+description: Something in NoMercy does not work the way it should.
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+        Found a security problem? Do not use this form. See SECURITY.md.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Where does it happen?
+      options:
+        - Media server
+        - Web app
+        - Android phone or tablet app
+        - Android TV app
+        - Chromecast
+        - nomercy.tv website or account
+        - Player library (npm or Maven)
+        - Something else
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Server version from the dashboard, app version from Settings, or the package version.
+      placeholder: e.g. 0.1.532
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How is the server installed?
+      options:
+        - Windows installer
+        - Linux package (deb)
+        - Docker
+        - macOS
+        - Built from source
+        - I don't know
+        - Not about the server
+    validations:
+      required: true
+
+  - type: input
+    id: platform
+    attributes:
+      label: Device and operating system
+      placeholder: e.g. Windows 11, Ubuntu 24.04, Pixel 8 on Android 16, Chrome 140
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Server logs are in the `log` folder of the server's data folder:
+        Windows `%LOCALAPPDATA%\NoMercy\log`, Linux and macOS `~/.local/share/NoMercy/log`.
+        Remove anything private before pasting.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true

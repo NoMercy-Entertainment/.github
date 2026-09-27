@@ -1,0 +1,33 @@
+name: Task
+description: A piece of planned work, for maintainers.
+labels: [needs-triage]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What is true when this is done?
+    validations:
+      required: true
+
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      description: The checks that prove it, one per line.
+      value: |
+        - [ ] 
+    validations:
+      required: true
+
+  - type: input
+    id: parent
+    attributes:
+      label: Parent epic
+      description: Link the epic this belongs to, if any. Then add this issue as its sub-issue.
+      placeholder: https://github.com/NoMercy-Entertainment/.github/issues/1
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes

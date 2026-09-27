@@ -1,0 +1,66 @@
+name: Sync labels
+
+# Applies .github/labels.yml to every repo in the org. Adds and updates only;
+# never deletes. Runs when the file changes, weekly to cover new repos, and on
+# demand (with a dry run option).
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - .github/labels.yml
+      - .github/scripts/sync_labels.py
+  pull_request:
+    paths:
+      - .github/labels.yml
+      - .github/scripts/**
+      - .github/workflows/sync-labels.yml
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only print what would change
+        type: boolean
+        default: true
+      repo:
+        description: Sync one repo only (leave empty for all)
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Unit tests
+        working-directory: .github/scripts
+        run: python -m unittest -v
+
+  sync:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Sync labels
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          REPO: ${{ inputs.repo }}
+        run: |
+          args=(NoMercy-Entertainment)
+          [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
+          [ -n "$REPO" ] && args+=(--repo "$REPO")
+          python .github/scripts/sync_labels.py "${args[@]}"
