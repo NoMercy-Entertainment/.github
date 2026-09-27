@@ -11,7 +11,7 @@ visible in one place.
 | Epic | An issue in this `.github` repo, type **Epic** | Stable release channel |
 | Task | A sub-issue of the epic, in the repo that changes | Channel picker in the web app settings |
 | Bug | An issue in the repo where it happens, type **Bug** | Seek freezes on Android TV |
-| Feature | A user request, type **Feature**. Becomes an epic once agreed | Plex importer |
+| Feature | A user request, type **Feature**. Becomes an epic once agreed | Watch history importer |
 
 An epic lists a sub-issue for every repository it touches. It closes only when
 every sub-issue is closed, which is how "a feature ships to every client" is
