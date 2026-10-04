@@ -3,8 +3,10 @@
 Reads the Fields table from the doc (the only source of truth), compares each
 single-select field on the project with it, and rewrites the options of any
 field that differs. Values already set on items are carried over to the
-renamed option, so no item loses its Status or Phase. Also puts every open
-issue of every unarchived repo in the org on the board (plus any listed with
+renamed option, so no item loses its Status or Phase; an old option the doc
+does not name stays on the field while items use it, and the run reports it.
+Also puts every open issue of every unarchived repo in the org on the board
+(a repo whose issues are disabled is skipped with a note; plus any listed with
 --add), and creates every view in the doc's Views table that the
 board does not have yet (views are never edited or deleted). Project
 workflows have no public API and are not touched.
@@ -18,6 +20,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -108,21 +111,29 @@ def map_option(old_name, new_names):
     return None
 
 
-def plan_field(field, wanted):
-    """Return (options input, {old option id: new name}) or None if the field
-    already matches the doc exactly, in order."""
+def plan_field(field, wanted, used_option_ids=()):
+    """Return (options input, {old option id: new name}, kept) or None if the
+    field already matches the doc exactly, in order. An old option the doc does
+    not name is dropped only when no item uses it (used_option_ids); otherwise
+    it is kept after the doc's options, listed in kept, so no item loses its
+    value. The run reports kept options; the doc or the board must be fixed by
+    hand."""
     current = [o["name"] for o in field["options"]]
     if current == wanted:
         return None
     by_new = {}
     moves = {}
+    kept = []
     for opt in field["options"]:
         target = map_option(opt["name"], wanted)
+        if target is None and opt["id"] in used_option_ids:
+            target = opt["name"]
+            kept.append(target)
         if target:
             moves[opt["id"]] = target
             by_new.setdefault(target, opt)
     options = []
-    for name in wanted:
+    for name in list(wanted) + kept:
         old = by_new.get(name)
         options.append(
             {
@@ -131,7 +142,7 @@ def plan_field(field, wanted):
                 "description": (old.get("description") or "") if old else "",
             }
         )
-    return options, moves
+    return options, moves, kept
 
 
 def gql(token, query, **variables):
@@ -172,14 +183,21 @@ def rest_pages(token, path):
         page += 1
 
 
-def open_issue_refs(repos, issues_of):
+def open_issue_refs(repos, issues_of, report=print):
     """owner/repo#number for every open issue (not pull request) of every
-    unarchived repo. issues_of(full_name) returns the repo's open issues."""
+    unarchived repo. issues_of(full_name) returns the repo's open issues. A
+    repo whose issues cannot be listed (410 when issues are disabled) is
+    skipped with a note through report."""
     refs = []
     for repo in repos:
         if repo.get("archived"):
             continue
-        for issue in issues_of(repo["full_name"]):
+        try:
+            issues = issues_of(repo["full_name"])
+        except urllib.error.HTTPError as err:
+            report(f"{repo['full_name']}: issues not listed ({err.code} {err.reason}), skipped")
+            continue
+        for issue in issues:
             if "pull_request" in issue:
                 continue
             refs.append(f"{repo['full_name']}#{issue['number']}")
@@ -262,12 +280,20 @@ def main(argv=None):
         if field is None:
             print(f"{name}: MISSING on the board, not created (add it in the UI)")
             continue
-        plan = plan_field(field, options)
+        used = {
+            value["optionId"]
+            for item in items
+            for value in item["fieldValues"]["nodes"]
+            if value and value.get("field", {}).get("id") == field["id"]
+        }
+        plan = plan_field(field, options, used)
         if plan is None:
             print(f"{name}: matches the doc")
             continue
-        new_options, moves = plan
-        print(f"{name}: {[o['name'] for o in field['options']]} -> {options}{tag}")
+        new_options, moves, kept = plan
+        print(f"{name}: {[o['name'] for o in field['options']]} -> {[o['name'] for o in new_options]}{tag}")
+        for extra in kept:
+            print(f"  KEPT {extra!r}: not in the doc but items use it; add it to the doc or move the items")
         carried = []
         for item in items:
             for value in item["fieldValues"]["nodes"]:
@@ -285,7 +311,9 @@ def main(argv=None):
     on_board = {item_label(i) for i in items}
     repos = rest_pages(token, f"/orgs/{args.org}/repos?type=all")
     wanted_refs = open_issue_refs(
-        repos, lambda name: rest_pages(token, f"/repos/{name}/issues?state=open")
+        repos,
+        lambda name: rest_pages(token, f"/repos/{name}/issues?state=open"),
+        report=lambda note: print(note, file=sys.stderr),
     )
     print(f"Open issues in {len(repos)} repos: {len(wanted_refs)}")
     for ref in list(args.add) + [r for r in wanted_refs if r not in args.add]:
