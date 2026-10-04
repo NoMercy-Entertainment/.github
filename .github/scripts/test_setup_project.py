@@ -126,11 +126,12 @@ class PlanTest(unittest.TestCase):
             {"id": "t", "name": "Todo", "color": "GREEN", "description": "x"},
             {"id": "d", "name": "Done", "color": "PURPLE", "description": ""},
         ]}
-        options, moves = plan_field(field, ["Inbox", "Ready", "Done"])
+        options, moves, kept = plan_field(field, ["Inbox", "Ready", "Done"])
         self.assertEqual([o["name"] for o in options], ["Inbox", "Ready", "Done"])
         self.assertEqual(options[0]["color"], "GREEN")
         self.assertEqual(options[1]["color"], "GRAY")
         self.assertEqual(moves, {"t": "Inbox", "d": "Done"})
+        self.assertEqual(kept, [])
 
     def test_unmatched_option_with_items_is_kept_and_reported(self):
         # Issue #53: an old option the doc does not name, with items on it,
