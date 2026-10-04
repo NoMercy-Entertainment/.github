@@ -1,4 +1,5 @@
 import unittest
+import urllib.error
 
 from setup_project import (
     map_option,
@@ -75,6 +76,26 @@ class OpenIssuesTest(unittest.TestCase):
         }
         self.assertEqual(open_issue_refs(repos, issues.__getitem__), ["o/live#1", "o/live#3"])
 
+    def test_repo_with_issues_disabled_is_skipped_with_a_note(self):
+        # Issue #52: GitHub answers 410 for a repo with issues disabled.
+        repos = [
+            {"full_name": "o/first", "archived": False},
+            {"full_name": "o/noissues", "archived": False},
+            {"full_name": "o/last", "archived": False},
+        ]
+
+        def issues_of(name):
+            if name == "o/noissues":
+                raise urllib.error.HTTPError("u", 410, "Gone", {}, None)
+            return [{"number": 1}]
+
+        notes = []
+        refs = open_issue_refs(repos, issues_of, report=notes.append)
+        self.assertEqual(refs, ["o/first#1", "o/last#1"])
+        self.assertEqual(len(notes), 1)
+        self.assertIn("o/noissues", notes[0])
+        self.assertIn("410", notes[0])
+
 
 class MapTest(unittest.TestCase):
     status = ["Inbox", "Ready", "In progress", "In review", "Done"]
@@ -110,6 +131,31 @@ class PlanTest(unittest.TestCase):
         self.assertEqual(options[0]["color"], "GREEN")
         self.assertEqual(options[1]["color"], "GRAY")
         self.assertEqual(moves, {"t": "Inbox", "d": "Done"})
+
+    def test_unmatched_option_with_items_is_kept_and_reported(self):
+        # Issue #53: an old option the doc does not name, with items on it,
+        # stays on the field (after the doc's options) so no item loses its value.
+        field = {"options": [
+            {"id": "t", "name": "Todo", "color": "GREEN", "description": ""},
+            {"id": "b", "name": "Blocked", "color": "RED", "description": "stuck"},
+            {"id": "z", "name": "Zombie", "color": "GRAY", "description": ""},
+        ]}
+        options, moves, kept = plan_field(field, ["Inbox", "Done"], used_option_ids={"t", "b"})
+        self.assertEqual([o["name"] for o in options], ["Inbox", "Done", "Blocked"])
+        self.assertEqual(options[2]["color"], "RED")
+        self.assertEqual(options[2]["description"], "stuck")
+        self.assertEqual(moves, {"t": "Inbox", "b": "Blocked"})
+        self.assertEqual(kept, ["Blocked"])
+
+    def test_unmatched_option_without_items_is_dropped(self):
+        field = {"options": [
+            {"id": "t", "name": "Todo", "color": "GREEN", "description": ""},
+            {"id": "z", "name": "Zombie", "color": "GRAY", "description": ""},
+        ]}
+        options, moves, kept = plan_field(field, ["Inbox"], used_option_ids={"t"})
+        self.assertEqual([o["name"] for o in options], ["Inbox"])
+        self.assertEqual(moves, {"t": "Inbox"})
+        self.assertEqual(kept, [])
 
 
 if __name__ == "__main__":
