@@ -7,29 +7,36 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Test the retention policy
+        working-directory: .github/scripts
+        run: python3 -m unittest test_cleanup_policy -v
+
       - name: Delete old workflow runs across org
         env:
           GH_TOKEN: ${{ secrets.PAT }}
           ORG: NoMercy-Entertainment
         run: |
           set -euo pipefail
-
-          CANCELLED_MAX_AGE_DAYS=1
-          FAILED_MAX_AGE_DAYS=7
-          KEEP_SUCCESSFUL=1
+          source .github/scripts/cleanup_policy.sh
 
           now=$(date +%s)
 
           echo "=== Cleanup Policy ==="
           echo "Cancelled: delete after ${CANCELLED_MAX_AGE_DAYS} day(s)"
           echo "Failed:    delete after ${FAILED_MAX_AGE_DAYS} day(s)"
-          echo "Success:   keep ${KEEP_SUCCESSFUL} per workflow"
+          echo "Success:   keep the newest ${KEEP_SUCCESSFUL} per workflow; delete the others after ${SUCCESS_MAX_AGE_DAYS} day(s)"
+          echo "Skipped:   ${SKIP_REPOS}"
           echo ""
 
           repos=$(gh api --paginate "orgs/${ORG}/repos" --jq '.[].full_name')
           total_deleted=0
 
           for repo in $repos; do
+            skip_repo "$repo" && continue
             workflows=$(gh api "repos/${repo}/actions/workflows" --jq '.workflows[].id' 2>/dev/null || true)
             [ -z "$workflows" ] && continue
 
@@ -49,21 +56,9 @@ jobs:
 
                 created_ts=$(date -d "$created_at" +%s 2>/dev/null || echo 0)
                 age_days=$(( (now - created_ts) / 86400 ))
-                should_delete=false
+                [ "$conclusion" = success ] && successful_count=$((successful_count + 1))
 
-                case "$conclusion" in
-                  cancelled|skipped)
-                    [ "$age_days" -ge "$CANCELLED_MAX_AGE_DAYS" ] && should_delete=true ;;
-                  failure|timed_out|startup_failure)
-                    [ "$age_days" -ge "$FAILED_MAX_AGE_DAYS" ] && should_delete=true ;;
-                  success)
-                    successful_count=$((successful_count + 1))
-                    [ "$successful_count" -gt "$KEEP_SUCCESSFUL" ] && should_delete=true ;;
-                  *)
-                    [ "$age_days" -ge "$CANCELLED_MAX_AGE_DAYS" ] && should_delete=true ;;
-                esac
-
-                if [ "$should_delete" = true ]; then
+                if should_delete "$conclusion" "$age_days" "$successful_count"; then
                   gh api -X DELETE "repos/${repo}/actions/runs/${run_id}" 2>/dev/null && {
                     repo_deleted=$((repo_deleted + 1))
                   } || true
