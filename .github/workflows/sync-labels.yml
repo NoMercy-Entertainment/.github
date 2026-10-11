@@ -33,6 +33,7 @@ permissions:
 
 jobs:
   test:
+    timeout-minutes: 7200
     runs-on: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && fromJSON('["self-hosted","Linux","X64","beast-unit"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
@@ -45,6 +46,7 @@ jobs:
         run: python -m unittest -v
 
   sync:
+    timeout-minutes: 7200
     needs: test
     if: github.event_name != 'pull_request'
     runs-on: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && fromJSON('["self-hosted","Linux","X64","beast-unit"]') || 'ubuntu-latest' }}
