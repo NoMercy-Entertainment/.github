@@ -35,6 +35,7 @@ jobs:
         working-directory: .github/scripts
         run: python -m unittest test_setup_project -v
       - name: Set up board
+        if: github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.PAT }}
           DRY_RUN: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}
